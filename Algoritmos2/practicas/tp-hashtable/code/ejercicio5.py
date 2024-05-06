@@ -8,7 +8,7 @@ Entrada: L = [1,5,12,1,2]
 Salida: Falso, L no tiene todos sus elementos únicos, el 1 se repite en la 1ra y 4ta posición
 
 '''
-
+#Time complexity -->> O(n²)
 def uniqueElements(L): 
     #Create a hash table with the elements of L 
     hash = [[] for i in range(10)] #dict size 10
