@@ -27,3 +27,5 @@ def compressString(str):
 
 hash = compressString("aabcccccaaa")
 printHashTable(hash)
+
+print("SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS")
