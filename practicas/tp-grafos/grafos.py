@@ -92,3 +92,14 @@ edges = [("v1","v2"),("v1","v3"),("v1","v4"),("v2","v3"),("v2","v6"),("v5","v6")
 graph = createGraph(vertices,edges)
 '''
 
+#Ejercicio 4 
+'''
+def isTree(Grafo):
+    Descripción: Implementa la operación es árbol
+    Entrada: Grafo con la representación de Lista de Adyacencia.
+    Salida: retorna True si el grafo es un árbol.
+'''
+
+def isTree(Grafo):
+    #Usar algoritmo BFS of DFS para determinar si el grafo tiene o no ciclos 
+    #Si no tiene es ciclos, es un árbol, luego, devuelve True, sino devuelve False 
