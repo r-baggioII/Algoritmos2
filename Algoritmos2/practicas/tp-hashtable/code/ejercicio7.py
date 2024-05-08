@@ -33,4 +33,3 @@ test = "aabcccccaaa"
 comp = compressString(test)
 print(comp)
 '''
-

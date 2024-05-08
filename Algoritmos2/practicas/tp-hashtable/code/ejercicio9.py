@@ -1,6 +1,5 @@
 from dictionary import * 
 
-
 #Time complexity --> O(S + T)
 def isSubSet(S,T): 
     d = [[] for _ in range(10)] 
@@ -15,6 +14,5 @@ def isSubSet(S,T):
 #Test 
 s = [1,2,3,4,5,14]
 t = [1,2,3,4,5,6,7,8,9,10]
-
 print(isSubSet(s,t)) 
 

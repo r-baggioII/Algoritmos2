@@ -1,4 +1,4 @@
-from dictionary import * 
+
 
 def findSubStringIndex(S,P):
     hash = hashFunction(P) 
