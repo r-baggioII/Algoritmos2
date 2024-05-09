@@ -97,11 +97,40 @@ def isTree(Grafo):
     Salida: retorna True si el grafo es un árbol.
 '''
 
-def isTree(Grafo):
-    #Usar algoritmo BFS of DFS para determinar si el grafo tiene o no ciclos 
-    #Si no tiene es ciclos, es un árbol, luego, devuelve True, sino devuelve False 
-    pass 
+#Usar algoritmo BFS of DFS para determinar si el grafo tiene o no ciclos 
+#Si no tiene es ciclos, es un árbol, luego, devuelve True, sino devuelve False 
 
+#Para determinar si hay un ciclo: 
+#Recorremos el grafo usando bfs, y vamos marcando los nodos que visitamos, si en la lista de adayancencia de un vertice u
+#encontramos un vertice q ya fue visitado este debe ser si o sí el padre del u, sino, estamos en presencial de un ciclo 
+def isTree(grafo):
+    s = next(iter(grafo)) 
+    parents = {}
+    visited = set() 
+    visited.add(s) 
+    queue = deque() 
+    queue.append(s) 
+    parents[s] = None 
+    while queue: 
+        u = queue.popleft() 
+        for vertex in grafo[u]: 
+            if vertex not in visited: 
+                visited.add(vertex)
+                parents[vertex] = u 
+                queue.append(vertex)
+            elif parents[u] != vertex:
+                return False 
+    return True 
+
+#Test 
+vertices = [1,2,3,4,5,6] 
+edges = [(1,2),(1,3),(1,4),(2,6),(6,5)]
+tree = createGraph(vertices,edges)
+print(isTree(tree))
+edges = [(1,2),(1,3),(1,4),(2,6),(6,5),(2,3)]
+graph = createGraph(vertices,edges)
+print(isTree(graph))
+    
 # I dont understand why the time complexity should be O( V + E) but okay, at least it works 
 #Apparently my implementation is O(E)
 def BFS(graph,s): 
@@ -121,7 +150,7 @@ def BFS(graph,s):
                 queue.append(vertex) #Enqueue vertex to continue traversing the graph 
     return traversal
     
-         
+'''
 #Test 
 vertices = [1,2,3,4,5,6] 
 edges = [(1,2),(1,3),(1,4),(2,3),(2,6),(6,5)]
@@ -133,4 +162,4 @@ print(graph)
 print("Traversal -->") 
 traversal = BFS(graph,1) #start from vertex 1 
 print(traversal)
-
+'''      
