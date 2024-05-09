@@ -1,3 +1,5 @@
+from collections import deque
+
 #Ejercicio 1 
 '''
 def createGraph(List, List)
@@ -10,23 +12,21 @@ def createGraph(List, List)
 
 #Time complexity --> O(|V| * |E|) --> se puede mejorar 
 def createGraph(vertices,edges): 
-    graph = []
+    graph = {}
     i = 0 
     for vertex in vertices: 
-        graph.append((vertex,[]))
-
+        graph[vertex] = []
         for edge in edges: 
             if vertex == edge[0]: 
-                graph[i][1].append(edge[1]) 
+                graph[vertex].append(edge[1]) 
             if vertex == edge[1]: 
-                graph[i][1].append(edge[0]) 
+                graph[vertex].append(edge[0]) 
         i+= 1 
     return graph
 
 '''
-TEST
-vertices = ["v1", "v2","v3","v4","v5","v6"] 
-edges = [("v1","v2"),("v1","v3"),("v1","v4"),("v2","v3"),("v2","v6")]
+vertices = [1, 2,3,4,5,6] 
+edges = [(1,2),(1,3),(1,4),(2,3),(2,6)]
 
 print(createGraph(vertices,edges))
 '''
@@ -104,3 +104,34 @@ def isTree(Grafo):
     #Usar algoritmo BFS of DFS para determinar si el grafo tiene o no ciclos 
     #Si no tiene es ciclos, es un árbol, luego, devuelve True, sino devuelve False 
     pass 
+
+# I dont understand why the time complexity should be O( V + E) but okay, at least it works 
+def BFS(graph,s): 
+    visited = set()
+    traversal = []
+    queue = deque() #queue  
+    queue.append(s) #start from vertex s 
+    
+    visited.add(s) #mark vertex s as visited 
+    
+    while queue: 
+        u = queue.popleft() #dequeue vertex u 
+        traversal.append(u) #add it to the traversal list 
+        for vertex in graph[u]:  # graph[u] gives the adjacency list for vertex u
+            if vertex not in visited: 
+                visited.add(vertex) #mark vertex as visited 
+                queue.append(vertex) #Enqueue vertex to continue traversing the graph 
+    return traversal
+    
+         
+#Test 
+vertices = [1,2,3,4,5,6] 
+edges = [(1,2),(1,3),(1,4),(2,3),(2,6),(6,5)]
+
+graph = createGraph(vertices,edges)
+print("graph --->>")
+print(graph)
+
+print("Traversal -->") 
+traversal = BFS(graph,1) #start from vertex 1 
+print(traversal)
