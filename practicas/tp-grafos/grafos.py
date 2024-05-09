@@ -41,15 +41,12 @@ def existPath(Grafo, v1, v2):
 '''
 
 #Time complexity ---> O(|V| * Gr(v1)) o O(|V| * Gr(v2)) -- > se puede mejorar 
-def existPath(Grafo, v1, v2): 
+def existPath(graph, v1, v2): 
     
-    for vertexTuple in Grafo: 
-        if vertexTuple[0]== v1: 
-            if v2 in vertexTuple[1]: 
-                return True 
-        if vertexTuple[0] == v2: 
-            if v1 in vertexTuple[1]: 
-                return True 
+    #traverse adjacency list of v1, if v2 is there then return True, else, return False 
+    for vertex in graph[v1]: 
+        if vertex == v2: 
+            return True 
     return False 
 
 '''
@@ -72,9 +69,9 @@ def isConnected(Grafo):
     False en caso contrario
 '''
 #Time complexity ---> O(|V|) 
-def isConnected(Grafo):
-    for vertexTuple in Grafo: 
-        if len(vertexTuple[1]) == 0: 
+def isConnected(graph):
+    for vertex in graph: 
+        if len(graph[vertex]) == 0: 
             return False 
     return True 
 
@@ -106,6 +103,7 @@ def isTree(Grafo):
     pass 
 
 # I dont understand why the time complexity should be O( V + E) but okay, at least it works 
+#Apparently my implementation is O(E)
 def BFS(graph,s): 
     visited = set()
     traversal = []
@@ -135,3 +133,4 @@ print(graph)
 print("Traversal -->") 
 traversal = BFS(graph,1) #start from vertex 1 
 print(traversal)
+
