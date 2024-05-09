@@ -40,7 +40,6 @@ def existPath(Grafo, v1, v2):
     Salida: retorna True si existe camino entre v1 y v2, False en caso contrario.
 '''
 
-#Time complexity ---> O(|V| * Gr(v1)) o O(|V| * Gr(v2)) -- > se puede mejorar 
 def existPath(graph, v1, v2): 
     
     #traverse adjacency list of v1, if v2 is there then return True, else, return False 
@@ -121,7 +120,7 @@ def isTree(grafo):
             elif parents[u] != vertex:
                 return False 
     return True 
-
+'''
 #Test 
 vertices = [1,2,3,4,5,6] 
 edges = [(1,2),(1,3),(1,4),(2,6),(6,5)]
@@ -130,7 +129,8 @@ print(isTree(tree))
 edges = [(1,2),(1,3),(1,4),(2,6),(6,5),(2,3)]
 graph = createGraph(vertices,edges)
 print(isTree(graph))
-    
+'''
+
 # I dont understand why the time complexity should be O( V + E) but okay, at least it works 
 #Apparently my implementation is O(E)
 def BFS(graph,s): 
@@ -163,3 +163,35 @@ print("Traversal -->")
 traversal = BFS(graph,1) #start from vertex 1 
 print(traversal)
 '''      
+
+#Ejercicio 5
+'''
+def isComplete(Grafo):
+Descripción: Implementa la operación es completo
+Entrada: Grafo con la representación de Lista de Adyacencia.
+Salida: retorna True si el grafo es completo
+'''
+#En todo grafo completo hay n(n-1) / 2 cantidad de aristas, donde n es la cantidad de vertices 
+def isComplete(grafo): 
+    
+    #Recorrer la lista de adyacencia de cada vertice 
+    for vertice in grafo: 
+        if len(grafo[vertice]) != len(grafo)-1:  #cada lista de adyancencia contiene n -1 vertices 
+            return False
+        #Comprobar que cada vertice contenga a los demás vertices (excepto a sí mismo) 
+        expectedVertices = set(grafo) - {vertice}
+        actualvertices = set(grafo[vertice])
+        if expectedVertices != actualvertices: 
+            return False 
+    return True 
+'''
+#Test 
+vertices = [1,2,3,4] 
+edges = [(1,2),(1,3),(1,4),(2,3),(2,4),(3,4)]
+
+graph = createGraph(vertices,edges)
+print("graph --->>")
+print(graph)
+
+print(isComplete(graph))
+'''
