@@ -24,6 +24,10 @@ def createGraph(vertices,edges):
         i+= 1 
     return graph
 
+def printGraph(graph): 
+    for vertex in graph: 
+        print(vertex,": ", graph[vertex]) 
+
 '''
 vertices = [1, 2,3,4,5,6] 
 edges = [(1,2),(1,3),(1,4),(2,3),(2,6)]
@@ -164,6 +168,44 @@ traversal = BFS(graph,1) #start from vertex 1
 print(traversal)
 '''      
 
+#Otra implementación para BFS donde es claro que es O(V + E) 
+def bfs(graph,s): 
+    visited = {} 
+    for vertex in graph: #O(V)
+        visited[vertex] = False #Initialize all vertices as not visited  
+
+    traversal = [] #array to store the path of nodes as you vist them 
+    queue = deque() 
+    queue.append(s) #starting vertex 
+    visited[s] = True #mark vertex s as visited 
+    while queue:  
+        u = queue.popleft() #dequeue vertex u
+        traversal.append(u) #add it to the traversal list 
+        for vertex in graph[u]: #O(E)
+            if visited[vertex] == False: 
+                visited[vertex] = True 
+                queue.append(vertex)
+    return traversal
+
+#Complejidad -> O(V + E), igual que en bfs, pero para dfs usamos un stack 
+def dfs(graph,s): 
+    visited = {} 
+    for vertex in graph: #O(V)
+        visited[vertex] = False 
+    traversal = [] 
+    stack = [] 
+    stack.append(s) 
+    visited[s] = True 
+    while stack: 
+        u = stack.pop() 
+        traversal.append(u)
+        for vertex in graph[u]: 
+            if visited[vertex] == False: 
+                visited[vertex] = True 
+                stack.append(vertex)
+    return traversal 
+
+
 #Ejercicio 5
 '''
 def isComplete(Grafo):
@@ -195,3 +237,17 @@ print(graph)
 
 print(isComplete(graph))
 '''
+
+
+#Test 
+vertices = [1,2,3,4,5,6] 
+edges = [(1,2),(1,3),(1,4),(2,3),(2,6),(6,5)]
+
+graph = createGraph(vertices,edges)
+print("graph --->>")
+printGraph(graph)
+
+print("Traversal BFS -->") 
+print(BFS(graph,1)) #start from vertex 1 
+print("Traversal DFS -->") 
+print(dfs(graph,1))
