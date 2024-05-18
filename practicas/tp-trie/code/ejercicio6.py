@@ -1,4 +1,5 @@
 from trie import Trie, TrieNode,insert,search,delete,printTrie
+
 '''
 Implemente un algoritmo que dado el Trie T devuelva True si existen en el documento T dos cadenas
 invertidas. Dos cadenas son invertidas si se leen de izquierda a derecha y contiene los mismos
@@ -34,9 +35,10 @@ def reversedStringRecursive(T,current,wordArray):
             if reversedStringRecursive(T,child,newWordArray): 
                 return True # If any child returns True, return True
     return False 
+
+
 '''
 T = Trie()
-
 insert(T,"ROLYAT")
 insert(T,"ROCIO")
 insert(T,"CASA")
@@ -45,6 +47,6 @@ insert(T,"FEARLESS")
 print("Trie 1 -->")
 printTrie(T.root) 
 print("--------------------")
-print(reversedString(T))
+print(reversedString(T)) 
 '''
 

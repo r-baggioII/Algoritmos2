@@ -153,20 +153,7 @@ def BFS(graph,s):
                 visited.add(vertex) #mark vertex as visited 
                 queue.append(vertex) #Enqueue vertex to continue traversing the graph 
     return traversal
-    
-'''
-#Test 
-vertices = [1,2,3,4,5,6] 
-edges = [(1,2),(1,3),(1,4),(2,3),(2,6),(6,5)]
-
-graph = createGraph(vertices,edges)
-print("graph --->>")
-print(graph)
-
-print("Traversal -->") 
-traversal = BFS(graph,1) #start from vertex 1 
-print(traversal)
-'''      
+     
 
 #Otra implementación para BFS donde es claro que es O(V + E) 
 def bfs(graph,s): 
@@ -206,6 +193,22 @@ def dfs(graph,s):
     return traversal 
 
 
+'''
+#Test 
+vertices = [1,2,3,4,5,6] 
+edges = [(1,2),(1,3),(1,4),(2,3),(2,6),(6,5)]
+
+graph = createGraph(vertices,edges)
+print("graph --->>")
+printGraph(graph)
+
+print("Traversal BFS -->") 
+print(BFS(graph,1)) #start from vertex 1 
+print("Traversal DFS -->") 
+print(dfs(graph,1))
+
+'''
+
 #Ejercicio 5
 '''
 def isComplete(Grafo):
@@ -237,17 +240,3 @@ print(graph)
 
 print(isComplete(graph))
 '''
-
-
-#Test 
-vertices = [1,2,3,4,5,6] 
-edges = [(1,2),(1,3),(1,4),(2,3),(2,6),(6,5)]
-
-graph = createGraph(vertices,edges)
-print("graph --->>")
-printGraph(graph)
-
-print("Traversal BFS -->") 
-print(BFS(graph,1)) #start from vertex 1 
-print("Traversal DFS -->") 
-print(dfs(graph,1))
