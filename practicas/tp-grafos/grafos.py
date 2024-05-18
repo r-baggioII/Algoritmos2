@@ -45,22 +45,21 @@ def existPath(Grafo, v1, v2):
 '''
 
 def existPath(graph, v1, v2): 
-    
     #traverse adjacency list of v1, if v2 is there then return True, else, return False 
-    for vertex in graph[v1]: 
-        if vertex == v2: 
-            return True 
-    return False 
+    for vertexV1 in graph[v1]: 
+        for vertex in graph[vertexV1]:
+            if v2 in graph[vertex]: 
+                return True
+    return False
 
-'''
 vertices = ["v1", "v2","v3","v4","v5","v6"] 
 edges = [("v1","v2"),("v1","v3"),("v1","v4"),("v2","v3"),("v2","v6")]
 
 graph = createGraph(vertices,edges)
 
-print(existPath(graph,"v1","v2")) 
+print(existPath(graph,"v1","v6")) 
 print(existPath(graph,"v1","v5")) 
-'''
+printGraph(graph)
 
 #Ejercicio 3 
 
