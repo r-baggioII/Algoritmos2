@@ -1,5 +1,13 @@
 from collections import deque
 
+class Node:
+    value = None
+    neighbors = []
+
+class Graph:
+    nodes = {}
+
+
 #Ejercicio 1 
 '''
 def createGraph(List, List)
@@ -9,7 +17,6 @@ def createGraph(List, List)
     entre dos vértices.
     Salida: retorna el nuevo grafo
 '''
-
 #Time complexity --> O(|V| * |E|) --> se puede mejorar 
 def createGraph(vertices,edges): 
     graph = {}
@@ -29,10 +36,10 @@ def printGraph(graph):
         print(vertex,": ", graph[vertex]) 
 
 '''
-vertices = [1, 2,3,4,5,6] 
-edges = [(1,2),(1,3),(1,4),(2,3),(2,6)]
-
-print(createGraph(vertices,edges))
+vertices = [1,2,3,4,5,6] 
+edges = [(1,2),(1,3),(1,4),(2,3),(2,6),(6,5)]
+graph = createGraph(vertices,edges)
+printGraph(graph)
 '''
 
 #Ejercicio 2 
@@ -52,14 +59,19 @@ def existPath(graph, v1, v2):
                 return True
     return False
 
+'''
 vertices = ["v1", "v2","v3","v4","v5","v6"] 
 edges = [("v1","v2"),("v1","v3"),("v1","v4"),("v2","v3"),("v2","v6")]
 
 graph = createGraph(vertices,edges)
+'''
 
+'''
 print(existPath(graph,"v1","v6")) 
 print(existPath(graph,"v1","v5")) 
 printGraph(graph)
+'''
+
 
 #Ejercicio 3 
 
@@ -239,3 +251,87 @@ print(graph)
 
 print(isComplete(graph))
 '''
+
+#Ejercicio 6 
+'''
+def convertTree(Grafo)
+Descripción: Implementa la operación es convertir a árbol
+Entrada: Grafo con la representación de Lista de Adyacencia.
+Salida: LinkedList de las aristas que se pueden eliminar y el grafo
+resultante se convierte en un árbol.
+'''
+#Delete all the edges that are not part of the tree
+#perform a bfs or dfs and find the edges that are not part of three 
+#the edges that are not part of the tree an the ones that come from a cycle 
+
+def convertTree(graph): 
+    s = next(iter(graph)) 
+    parents = {}
+    visited = set() 
+    visited.add(s) 
+    queue = deque() 
+    queue.append(s) 
+    parents[s] = None 
+    edges = [] 
+    while queue: 
+        u = queue.popleft() 
+        for vertex in graph[u]: 
+            if vertex not in visited: 
+                visited.add(vertex)
+                parents[vertex] = u 
+                queue.append(vertex)
+            elif parents[u] != vertex:
+                edges.append((u,vertex))
+
+    return edges
+'''
+#Test
+vertices = ["v1", "v2","v3","v4","v5","v6"] 
+edges = [("v1","v2"),("v1","v3"),("v1","v4"),("v2","v3"),("v2","v6"),("v5","v6")] 
+
+graph = createGraph(vertices,edges)
+printGraph(graph) 
+print(convertTree(graph)) 
+'''
+
+#Parte 2 -------------------------------------------
+#Ejercicio 7
+
+'''
+def countConnections(Grafo):
+Descripción: Implementa la operación cantidad de componentes conexas
+Entrada: Grafo con la representación de Lista de Adyacencia.
+Salida: retorna el número de componentes conexas que componen el
+grafo.
+'''
+#Select a random vertex (s) to start the traversal, mark it as visited, and then traverse the graph using bfs or dfs
+def countConnections(graph,s):
+    visited = {} 
+    for vertex in graph: #O(V)
+        visited[vertex] = False 
+    stack = [] 
+    stack.append(s) 
+    visited[s] = True 
+    while stack: 
+        u = stack.pop() 
+        for vertex in graph[u]: 
+            if visited[vertex] == False: 
+                visited[vertex] = True 
+                stack.append(vertex)
+    connections = 0
+    for vertex in visited: 
+        if visited[vertex] == False: 
+            connections += 1
+    return connections
+
+'''
+#Test
+vertices = [1,2,3,4,5,6,7,8]
+edges = [(1,2),(1,4),(1,3),(2,5),(3,6),(5,6)]
+graph = createGraph(vertices,edges) 
+printGraph(graph)
+print("-------------")
+print(countConnections(graph,1))
+'''
+
+
