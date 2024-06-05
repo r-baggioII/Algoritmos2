@@ -305,8 +305,15 @@ Salida: retorna el número de componentes conexas que componen el
 grafo.
 '''
 #Select a random vertex (s) to start the traversal, mark it as visited, and then traverse the graph using bfs or dfs
-def countConnections(graph,s):
-    visited = {} 
+def countConnections(graph):
+    s = next(iter(graph))
+    visited = {}
+    if len(graph) == 0: #If the graph is empty, return 0
+        return 0
+    connections = 1 #If the graph is not empty, there is at least one connection 
+    return countConnectionsHelper(graph,visited,s,connections)
+
+def countConnectionsHelper(graph,visited,s,connections): 
     for vertex in graph: #O(V)
         visited[vertex] = False 
     stack = [] 
@@ -318,20 +325,26 @@ def countConnections(graph,s):
             if visited[vertex] == False: 
                 visited[vertex] = True 
                 stack.append(vertex)
-    connections = 0
+    
+    for vertex in visited: 
+        if visited[vertex] == True: 
+            del vertex #delete the vertex from the graph if it has been visited 
+        else: 
+            connections += 1 
+            return countConnectionsHelper(graph,visited,vertex,connections)
+
+def checkVisited(visited): #checks if all the vertices have been visited
     for vertex in visited: 
         if visited[vertex] == False: 
-            connections += 1
-    return connections
+            return False
+    return True
 
-'''
 #Test
-vertices = [1,2,3,4,5,6,7,8]
-edges = [(1,2),(1,4),(1,3),(2,5),(3,6),(5,6)]
+vertices = [1,2,3,4,5]
+edges = [(1,2),(2,3),(4,5)]
 graph = createGraph(vertices,edges) 
 printGraph(graph)
 print("-------------")
-print(countConnections(graph,1))
-'''
+print(countConnections(graph))
 
 
