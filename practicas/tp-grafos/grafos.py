@@ -341,14 +341,52 @@ def countConnectionsHelper(graph,visitedTotal,s,connections):
 
 '''
 #Test
-vertices = [1,2,3,4,5]
-edges = [(1,2),(2,3),(3,4),(4,5)]
+vertices = [1,2,3,4,5,6,7]
+edges = [(1,2),(2,3),(4,5)]
 graph = createGraph(vertices,edges) 
 printGraph(graph)
 print("-------------")
 connections = countConnections(graph)
 print(connections) 
+'''
+#Ejercicio 10 
 
 '''
+def bestRoad(Grafo, v1, v2):
+Descripción: Encuentra el camino más corto, en caso de existir, entre
+dos vértices.
+Entrada: Grafo con la representación de Lista de Adyacencia, v1 y v2
+vértices del grafo.
+Salida: retorna la lista de vértices que representan el camino más
+corto entre v1 y v2. La lista resultante contiene al inicio a v1 y al
+final a v2. En caso que no exista camino se retorna la lista vacía.
+'''
+
+def bfs_shortest_path(graph, start, goal):
+    visited = {start: None}
+
+
+    queue = deque() 
+    queue.append(start) #starting vertex 
+    while queue:  
+        u = queue.popleft() #dequeue vertex u
+        
+        if u == goal: 
+            path = [] 
+            while u is not None: 
+                path.append(u)
+                u = visited[u]
+            return path[::-1]
+
+        for vertex in graph[u]: #O(E)
+            if vertex not in visited:
+                visited[vertex] = u
+                queue.append(vertex)
+
+vertices = [1,2,3,4,5,6]
+edges = [(1,2),(1,3),(2,3),(4,5),(2,4),(3,6),(6,4)]
+graph = createGraph(vertices,edges) 
+printGraph(graph)
+print(bfs_shortest_path(graph,1,4))
 
 
