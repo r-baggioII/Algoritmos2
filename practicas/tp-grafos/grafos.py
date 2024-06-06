@@ -307,44 +307,48 @@ grafo.
 #Select a random vertex (s) to start the traversal, mark it as visited, and then traverse the graph using bfs or dfs
 def countConnections(graph):
     s = next(iter(graph))
-    visited = {}
+    visitedTotal = {}
     if len(graph) == 0: #If the graph is empty, return 0
         return 0
-    connections = 1 #If the graph is not empty, there is at least one connection 
-    return countConnectionsHelper(graph,visited,s,connections)
+    connections = 1 #At least there is one connection
+    return countConnectionsHelper(graph,visitedTotal,s,connections) 
 
-def countConnectionsHelper(graph,visited,s,connections): 
+def countConnectionsHelper(graph,visitedTotal,s,connections): 
+    if len(visitedTotal) == len(graph): #If all the vertices have been visited, return the number of connections 
+        return connections
+    
+    visited = {}
     for vertex in graph: #O(V)
         visited[vertex] = False 
+    
     stack = [] 
     stack.append(s) 
     visited[s] = True 
+    visitedTotal[s] = True
     while stack: 
         u = stack.pop() 
         for vertex in graph[u]: 
             if visited[vertex] == False: 
                 visited[vertex] = True 
+                visitedTotal[vertex] = True
                 stack.append(vertex)
     
-    for vertex in visited: 
-        if visited[vertex] == True: 
-            del vertex #delete the vertex from the graph if it has been visited 
-        else: 
+    for vertex in visited: #Find the next node that wasnt visited 
+        if visited[vertex] == False and vertex not in visitedTotal: 
             connections += 1 
-            return countConnectionsHelper(graph,visited,vertex,connections)
+            return countConnectionsHelper(graph,visitedTotal,vertex,connections)
+    return connections
 
-def checkVisited(visited): #checks if all the vertices have been visited
-    for vertex in visited: 
-        if visited[vertex] == False: 
-            return False
-    return True
-
+'''
 #Test
 vertices = [1,2,3,4,5]
-edges = [(1,2),(2,3),(4,5)]
+edges = [(1,2),(2,3),(3,4),(4,5)]
 graph = createGraph(vertices,edges) 
 printGraph(graph)
 print("-------------")
-print(countConnections(graph))
+connections = countConnections(graph)
+print(connections) 
+
+'''
 
 
