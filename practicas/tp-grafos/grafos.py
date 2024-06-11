@@ -186,7 +186,7 @@ def bfs(graph,s):
     return traversal
 
 #Complejidad -> O(V + E), igual que en bfs, pero para dfs usamos un stack 
-def dfs(graph,s): 
+def dfsIterative(graph,s): 
     visited = {} 
     for vertex in graph: #O(V)
         visited[vertex] = False 
@@ -204,6 +204,25 @@ def dfs(graph,s):
     return traversal 
 
 
+def dfs(graph):
+    visited = {}
+    traversal = []
+    for vertex in graph: 
+        visited[vertex] = False
+
+    s = next(iter(graph))
+    dfs_recursive(graph,s,visited,traversal)
+    return traversal 
+
+def dfs_recursive(graph,u,visited,traversal): 
+    visited[u] = True
+    traversal.append(u)
+    for vertex in graph[u]: 
+        if visited[vertex] == False: 
+            dfs_recursive(graph,vertex,visited,traversal)
+
+
+
 '''
 #Test 
 vertices = [1,2,3,4,5,6] 
@@ -219,6 +238,16 @@ print("Traversal DFS -->")
 print(dfs(graph,1))
 
 '''
+
+vertices = [1,2,3,4,5,6] 
+edges = [(1,2),(1,3),(1,4),(2,3),(2,6),(6,5)]
+graph = createGraph(vertices,edges)
+print("graph --->>")
+printGraph(graph)
+print("DFS ITERATIVE: ")
+print(dfsIterative(graph,1)) 
+print("DFS RECURSIVE: " )
+print(dfs(graph)) 
 
 #Ejercicio 5
 '''
@@ -364,8 +393,6 @@ final a v2. En caso que no exista camino se retorna la lista vacía.
 
 def bfs_shortest_path(graph, start, goal):
     visited = {start: None}
-
-
     queue = deque() 
     queue.append(start) #starting vertex 
     while queue:  
@@ -382,11 +409,109 @@ def bfs_shortest_path(graph, start, goal):
             if vertex not in visited:
                 visited[vertex] = u
                 queue.append(vertex)
-
+'''
 vertices = [1,2,3,4,5,6]
 edges = [(1,2),(1,3),(2,3),(4,5),(2,4),(3,6),(6,4)]
 graph = createGraph(vertices,edges) 
 printGraph(graph)
 print(bfs_shortest_path(graph,1,4))
+'''
+
+#Ejercicio: Algoritmo para determinar si existe un punto de articulación en el grafo (devuelve True si existe, False en caso contrario) 
+#Un punto de articulación es un vértice tal que si lo eliminamos, el grafo se desconecta 
+def articulationPoint(graph,s): 
+    visited = {} 
+    minumumLevel = {}
+    for vertex in graph: #O(V)
+        visited[vertex] = False 
+        minumumLevel[vertex] = float('inf') #initialize all vertices with infinity level
+    
+    stack = [] 
+    stack.append(s) 
+    visited[s] = True 
+    parents = {}
+    parents[s] = None
+    level = {}
+    level[s] = 0
+    childrenRoot = 0
+    minumumLevel[s] = 0 #minimum level of the starting vertex is 0
+    while stack: 
+        u = stack.pop()
+        for vertex in graph[u]: 
+            if visited[vertex] == False: 
+                visited[vertex] = True 
+                parents[vertex] = u #store the parent of the vertex
+                if parents[u] == None:
+                    childrenRoot += 1
+                level[vertex] = level[u] + 1 #store the level of the vertex 
+                minumumLevel[vertex] = level[vertex] #store the minimum level of the vertex 
+                stack.append(vertex)
+            elif parents[u] != vertex: #back edge 
+                minumumLevel[u] = min(minumumLevel[u],level[vertex])
+        
+        if parents[u] != None:
+            minumumLevel[parents[u]] = min(minumumLevel[u],minumumLevel[parents[u]])
+            if minumumLevel[u] >= level[u]: 
+                print(u)
+                return True
+    return False 
+
+'''
+vertices = [1,2,3,4,5,6,7]
+edges = [(1,2),(1,3),(2,3)]
+print(articulationPoint(createGraph(vertices,edges),1)) #Should return True
+'''
+
+'''
+TARJAN'S ALGORITHM
+def articulation_points_exist(graph):
+    ids = {}
+    low = {}
+    parent = {}
+    articulation = set()
+    time = [0]
+    has_articulation = [False]
+
+    def dfs(v):
+        nonlocal has_articulation
+        ids[v] = low[v] = time[0]
+        time[0] += 1
+        child_count = 0
+        for w in graph[v]:
+            if w not in ids:
+                parent[w] = v
+                child_count += 1
+                dfs(w)
+                low[v] = min(low[v], low[w])
+                if parent[v] is None and child_count > 1:
+                    articulation.add(v)
+                    has_articulation[0] = True
+                if parent[v] is not None and low[w] >= ids[v]:
+                    articulation.add(v)
+                    has_articulation[0] = True
+            elif w != parent.get(v):
+                low[v] = min(low[v], ids[w])
+
+    for v in graph:
+        if v not in ids:
+            parent[v] = None
+            dfs(v)
+
+    return has_articulation[0]
+
+vertices = [1,2,3]
+edges = [(1,2),(1,3),(2,3)]
+print(articulation_points_exist(createGraph(vertices,edges))) 
+'''
+
+
+#Ejercicio 11
+'''
+def isBipartite(Grafo):
+Descripción: Implementa la operación es bipartito
+Entrada: Grafo con la representación de Lista de Adyacencia.
+Salida: retorna True si el grafo es bipartito.
+NOTA: Un grafo es bipartito si no tiene ciclos de longitud impar.
+'''
 
 
