@@ -160,7 +160,7 @@ def reduceLen(String):
     return "".join(stack) if stack else "Empty String"
     
         
-print(reduceLen("aaabccddd"))
+#print(reduceLen("aaabccddd"))
             
 '''
 Implementar una función que dadas dos palabras determine si la segunda está contenida dentro de la primera 
@@ -193,9 +193,36 @@ def isContained(string1,string2):
 
 
 
+'''
+Sean el texto T y el patrón P de longitudes m y n respectivamente. 
+Plantee un algoritmo para encontrar el mayor prefijo de P que se encuentra en T en O(n+m).
+'''
+def maxPrefix(T,P): 
+    max_prefix = ""
+    currentPrefix = ""
+    k = 0 #index for P 
+    wantedChar = P[0] #at the begining our wanted char is the first element on the pattern 
+    for i in range(len(T)): 
+        if T[i] == wantedChar and k < len(P): 
+            k +=1 
+            currentPrefix += T[i]
+        else: 
+            if len(currentPrefix) > len(max_prefix): 
+                max_prefix = currentPrefix
+            currentPrefix = ""
+            k = 0 
+        if k < len(P):  # Evita IndexError
+            wantedChar = P[k]
+    
+    if len(currentPrefix) > len(max_prefix):
+        max_prefix = currentPrefix
 
+    return max_prefix
 
-
+#print(maxPrefix("fffffabcdhhhhabcdeiiabcdef","abcdef"))
+    
+        
+            
 
 
 def suffixFuncion(p,k):
