@@ -17,38 +17,54 @@ la mayor subsecuencia creciente
         sino, simplemente concatenamos las dos listas 
 '''
 
-def combine(left, right): 
-    if left[-1] >= right[0]:  # Enforce strictly increasing
-        return []
-    else: 
-        return left + right 
-
-def subsecuenciaCreciente(array):
-    if len(array) == 1: 
-        return array 
+def combine(left, right):
+    # Opción 1: La subsecuencia está completamente en left
+    best_left = left
     
-    mid = len(array) // 2 
-    leftLongest = subsecuenciaCreciente(array[:mid]) 
-    rightLongest = subsecuenciaCreciente(array[mid:])
+    # Opción 2: La subsecuencia está completamente en right
+    best_right = right
     
-    combined = combine(leftLongest, rightLongest)
+    # Opción 3: La subsecuencia cruza entre left y right
+    # Encontrar la secuencia más larga que termina en el último elemento de left
+    # y la secuencia más larga que comienza en el primer elemento de right
+    cross = []
+    
+    # Si las listas no están vacías, podemos intentar combinarlas
+    if left and right:
+        # Verificar si podemos conectar la última parte de left con la primera parte de right
+        if left[-1] < right[0]:
+            cross = left + right
+        else:
+            # Buscamos el prefijo más largo de left que puede conectarse con right
+            i = len(left) - 1
+            while i >= 0 and left[i] >= right[0]:
+                i -= 1
+                
+            # Si encontramos un prefijo válido, lo combinamos con right
+            if i >= 0:
+                cross = left[:i+1] + right
+    
+    # Devolver la mejor opción entre las tres
+    candidates = [best_left, best_right, cross]
+    return max(candidates, key=len)
 
-    # Return the longest of the three
-    if len(combined) >= len(leftLongest) and len(combined) >= len(rightLongest):
-        return combined
-    elif len(leftLongest) >= len(rightLongest):
-        return leftLongest
-    else:
-        return rightLongest
+def subsecuenciaCrecienteWrapper(array):
+    # Caso base
+    if len(array) <= 1:
+        return array
+        
+    # Dividir
+    mid = len(array) // 2
+    left = subsecuenciaCrecienteWrapper(array[:mid])
+    right = subsecuenciaCrecienteWrapper(array[mid:])
+    
+    # Combinar
+    combined = combine(left, right)
+    
+    # Devolver la subsecuencia más larga
+    return len(combined)
 
 
 
-#print(subsecuenciaCreciente([5,1,2,3,100,20,17,8,19,21])) 
-#rint(subsecuenciaCreciente([5, 4, 3, 2, 1]))
-#print(subsecuenciaCreciente([1, 3, 5, 4, 6, 7, 8, 2, 3]))
-print(subsecuenciaCreciente([10, 9, 8, 1, 2, 3, 4]))
-# Expected: [1, 2, 3, 4]
-print(subsecuenciaCreciente([100, 1, 2, 3, 4, 2, 1]))
-# Expected: [1, 2, 3, 4]
-print(subsecuenciaCreciente([7, 7, 7, 7, 8, 9, 1]))
-# Expected: [7, 8, 9]
+
+
