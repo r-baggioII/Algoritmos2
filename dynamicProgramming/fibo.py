@@ -8,7 +8,7 @@ def fiboPro(n,arrayAux):
     if n == 0 or n == 1:
         result = 1 
     else: 
-        result = fibo(n-1,arrayAux) + fibo(n-2,arrayAux) 
+        result = fiboPro(n-1,arrayAux) + fiboPro(n-2,arrayAux) 
     arrayAux[n] = result 
     return result
 
@@ -31,7 +31,17 @@ def fiboProMax(n):
         fiboArray[i] = fiboArray[i-1] + fiboArray[i-2] 
     return fiboArray[n] 
 
-#print(fiboProMax(8)) 
+def fiboProMax(n):
+    #create an array with length n + 1 
+    fiboArray = [None] * (n+1)
+    #Assing base cases to the fiboArray 
+    fiboArray[0] = 1 
+    fiboArray[1] = 1 
+    for i in range(2,n +1): 
+        fiboArray[i] = fiboArray[i-1] + fiboArray[i-2] 
+    return fiboArray[n] 
+
+print(fiboProMax(2)) 
 
 #Naive approach in O(2^n)  
 def fiboNaive(n): 
